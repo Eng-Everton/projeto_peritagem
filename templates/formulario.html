@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGF - Peritagem Profissional</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #e9ecef; color: #333; }
+        .card { background: white; padding: 25px; border-radius: 8px; max-width: 900px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .componente-bloco { border: 2px solid #003366; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #fdfdfd; position: relative; }
+        .foto-container { background: #f8f9fa; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px dashed #ccc; }
+        label { font-weight: bold; display: block; margin-top: 12px; font-size: 0.9em; color: #003366; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; }
+        .row { display: flex; gap: 15px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 200px; }
+        .btn-foto { background: #6c757d; color: white; border: none; padding: 8px 15px; margin-top: 10px; cursor: pointer; border-radius: 4px; font-size: 0.85em; }
+        .btn-add { background: #28a745; color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 20px; font-weight: bold; font-size: 1em; }
+        .btn-submit { background: #003366; color: white; border: none; padding: 18px; width: 100%; border-radius: 5px; font-size: 1.2em; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-submit:hover { background: #002244; }
+        h2 { color: #003366; text-align: center; margin-top: 0; border-bottom: 2px solid #003366; padding-bottom: 10px; }
+        h3 { margin-top: 0; color: #003366; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>LAUDO DE PERITAGEM TÉCNICA</h2>
+        <form action="/salvar" method="POST" enctype="multipart/form-data">
+            
+            <label>Cliente:</label>
+            <input type="text" name="cliente" required placeholder="Nome da Empresa / Cliente">
+
+            <div class="row">
+                <div class="col"><label>Equipamento:</label><input type="text" name="descricao" placeholder="Ex: Cilindro Hidráulico"></div>
+                <div style="flex: 0.5;"><label>Ordem de Serviço (OS):</label><input type="text" name="os" required></div>
+            </div>
+
+            <div class="row">
+                <div class="col"><label>Nota Fiscal (NF):</label><input type="text" name="nf"></div>
+                <div class="col"><label>Pedido de Compra:</label><input type="text" name="pedido_compra"></div>
+                <div class="col"><label>Perito Responsável:</label><input type="text" name="perito"></div>
+            </div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #ccc;">
+
+            <div id="container-componentes"></div>
+
+            <button type="button" class="btn-add" onclick="add_componente()">+ ADICIONAR NOVO COMPONENTE</button>
+            <button type="submit" class="btn-submit">GERAR LAUDO PROFISSIONAL (PDF)</button>
+        </form>
+    </div>
+
+    <script>
+        let compContador = 0;
+
+        function add_componente() {
+            compContador++;
+            const container = document.getElementById('container-componentes');
+            const div = document.createElement('div');
+            div.className = 'componente-bloco';
+            div.innerHTML = `
+                <h3>Componente #${compContador}</h3>
+                <label>Nome do Componente:</label>
+                <input type="text" name="comp_nome[]" placeholder="Ex: Haste, Camisa, Êmbolo..." required>
+                
+                <div class="row">
+                    <div class="col">
+                        <label>Dimensionamento:</label>
+                        <textarea name="comp_dim[]" rows="3"></textarea>
+                    </div>
+                    <div class="col">
+                        <label>Avaria:</label>
+                        <textarea name="comp_avaria[]" rows="3" style="color: #d9534f;" placeholder="Descreva os danos encontrados..."></textarea>
+                    </div>
+                </div>
+                
+                <label>Serviço a ser Executado:</label>
+                <input type="text" name="comp_servico[]" placeholder="Ex: Cromo e Retífica">
+                
+                <div class="foto-container" id="fotos_comp_${compContador}">
+                    <label>Fotos (Câmera ou Galeria):</label>
+                    <input type="file" name="comp_foto_${compContador}[]" accept="image/*" capture="camera">
+                </div>
+                <button type="button" class="btn-foto" onclick="add_foto_input(${compContador})">+ Adicionar outra foto neste item</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function add_foto_input(id) {
+            const container = document.getElementById(`fotos_comp_${id}`);
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = `comp_foto_${id}[]`;
+            input.accept = 'image/*';
+            input.capture = 'camera';
+            input.style.marginTop = "8px";
+            container.appendChild(input);
+        }
+
+        // Inicia com um componente na tela
+        add_componente();
+    </script>
+</body>
+</html>
