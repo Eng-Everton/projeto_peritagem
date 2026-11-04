@@ -1,0 +1,23 @@
+services:
+  peritagem-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kgf-peritagem
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - FOTOS_SERVIDOR_DIR=/mnt/fotos-servidor
+      - UPLOAD_FOLDER=/app/uploads
+      - LAUDO_FOLDER=/app/laudos
+    volumes:
+      - ./laudos:/app/laudos
+      - /mnt/fotos-servidor:/mnt/fotos-servidor
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+

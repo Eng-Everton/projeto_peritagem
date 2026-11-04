@@ -1,1 +1,15 @@
-uploads
+# Diretórios de trabalho e arquivos gerados
+uploads/
+laudos/
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Bytecode e ambientes Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+ENV/

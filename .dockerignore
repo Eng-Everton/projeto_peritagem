@@ -1,0 +1,13 @@
+.git
+.gitignore
+.gitattributes
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+uploads/
+laudos/
+README.md
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGF - Peritagem Profissional</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="card">
+        <h2>LAUDO DE PERITAGEM TÉCNICA</h2>
+        <form action="{{ url_for('main.salvar_laudo') }}" method="POST" enctype="multipart/form-data">
+
+            <label>Cliente:</label>
+            <input type="text" name="cliente" required placeholder="Nome da Empresa / Cliente">
+
+            <div class="row">
+                <div class="col">
+                    <label>Equipamento:</label>
+                    <input type="text" name="descricao" placeholder="Ex: Cilindro Hidráulico">
+                </div>
+                <div class="col-os">
+                    <label>Ordem de Serviço (OS):</label>
+                    <input type="text" name="os" required placeholder="Ex: 48500">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Nota Fiscal (NF):</label>
+                    <input type="text" name="nf">
+                </div>
+                <div class="col">
+                    <label>Pedido de Compra:</label>
+                    <input type="text" name="pedido_compra">
+                </div>
+                <div class="col">
+                    <label>Perito Responsável:</label>
+                    <input type="text" name="perito">
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div id="container-componentes"></div>
+
+            <button type="button" class="btn-add" onclick="add_componente()">+ ADICIONAR NOVO COMPONENTE</button>
+            <button type="submit" class="btn-submit">GERAR LAUDO PROFISSIONAL (PDF)</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/form.js') }}"></script>
+</body>
+</html>
+
